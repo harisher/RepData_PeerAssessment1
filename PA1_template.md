@@ -2,6 +2,8 @@
 
 ```r
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+if(!dir.exists("figures"))
+        dir.create("figures")
 ```
 
 ## Loading and preprocessing the data
@@ -33,11 +35,15 @@ R script for the following is given below:
 total <- tapply(tidyact$steps, tidyact$date, sum)
 average <- mean(total, na.rm = TRUE)
 med <- median(total, na.rm = TRUE)
-
+png("./figures/histogram_1.png")
 hist(total, main = "Histogram of total steps taken per day")
+dev.off()
 ```
 
-![](PA1_template_files/figure-html/total&mean-1.png)<!-- -->
+```
+## png 
+##   2
+```
 
 3. Mean of total number of steps taken per day is: 
 
@@ -65,10 +71,15 @@ med
 ```r
 subact <- split(activity,activity$interval)
 gr <- lapply(subact, function(x){mean(x[,1], na.rm = TRUE)})
+png("./figures/timeseries_1.png")
 plot(names(subact),as.numeric(gr), type = 'l', xlab = "5-minute interval", ylab = "Average number of steps taken")
+dev.off()
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+```
+## png 
+##   2
+```
 
 2. The 5-minute interval, averaged across all days, that has the maximum number of steps is in between:
 
@@ -124,10 +135,15 @@ new_med <- median(new_total, na.rm = TRUE)
 4. Histogram of total number of steps taken each day
 
 ```r
+png("./figures/histogram_2.png")
 hist(new_total, main = "Histogram of total steps taken per day")
+dev.off()
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+```
+## png 
+##   2
+```
 
 New mean (after imputing for missing values) of total number of steps taken per day is: 
 
@@ -192,9 +208,14 @@ weekend_subact <- split(weekend_activity,weekend_activity$interval)
 weekend_gr <- lapply(weekend_subact, function(x){mean(x[,1], na.rm = TRUE)})
 
 #plot both the data
-par(mfrow=c(2,1), mar = c(4,3.5,3,2))
+png("./figures/timeseries_2.png")
+par(mfrow=c(2,1), mar = c(4,4,3,2))
 plot(names(weekend_subact),as.numeric(weekend_gr), type = 'l', main = "weekend", cex.lab = 0.7, cex.axis = 0.5, xlab = "5-minute interval", ylab = "avg. steps count")
 plot(names(weekday_subact),as.numeric(weekday_gr), type = 'l', main = "weekday", cex.lab = 0.7, cex.axis = 0.5, xlab = "5-minute interval", ylab = "avg. steps count")
+dev.off()
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+```
+## png 
+##   2
+```
